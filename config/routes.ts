@@ -5,9 +5,11 @@
     wrappers: ['@/layouts/GlobalLayout/index'],
     component: '@/pages/Home',
   },
-  {
+  { // 导航首页
+    name: 'Navigation',
     path: '/',
-    redirect: '/home',
+    wrappers: ['@/layouts/GlobalLayout/index'],
+    component: '@/pages/Navigation',
   },
   {
     component: './404',

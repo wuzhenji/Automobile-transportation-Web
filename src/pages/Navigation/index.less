@@ -1,0 +1,81 @@
+.Navigation {
+    width: 100%;
+    height: 100%;
+
+    .NavigationInner {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+
+        .NavBg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .Notice {
+            position: absolute;
+            left: 0;
+            top: 10px;
+
+            a {
+                cursor: pointer;
+
+                img {
+                    width: 100px;
+                    height: auto;
+                }
+            }
+
+            span {
+                position: absolute;
+                bottom: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: inline-block;
+                cursor: pointer;
+                font-size: 14px;
+                padding: 0 10px;
+                color: #5e5e5e;
+            }
+        }
+
+        .Logo {
+            position: absolute;
+            top: 6%;
+            left: 10%;
+        }
+
+        .NavBtns {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+
+            a {
+                display: inline-block;
+                margin: 0px 18px;
+                padding: 5px 30px;
+                height: 46px;
+                font-size: 22px;
+                color: #fff;
+                background-color: rgba(73, 155, 2, 0.6);
+                border-radius: 8px;
+                text-decoration: none;
+                transition: all .3s;
+
+                &:hover {
+                    background-color: rgba(216, 6, 36, 0.6)
+                }
+            }
+        }
+    }
+}
