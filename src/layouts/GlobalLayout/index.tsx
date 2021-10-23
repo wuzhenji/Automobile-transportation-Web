@@ -4,6 +4,7 @@ import styles from './index.less';
 import React, { useEffect } from 'react';
 import useModelHelp from '@/hooks/useModelHelp';
 import { PageLoading } from '@ant-design/pro-layout';
+import classNames from '_classnames@2.3.1@classnames';
 
 const GlobalLayout: React.FC = ({ children }) => {
   const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
@@ -25,7 +26,7 @@ const GlobalLayout: React.FC = ({ children }) => {
   }
 
   // 做登录验证
-  return <div className={styles.GlobalLayout}>{children}</div>;
+  return <div className={classNames(styles.GlobalLayout, 'InnerWidth')}>{children}</div>;
 };
 
 export default GlobalLayout;

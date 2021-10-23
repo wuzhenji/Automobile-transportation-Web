@@ -12,7 +12,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'wuzhenji',
+  title: '南通汽运实业集团有限公司',
   pwa: false,
   logo: '/logo.svg',
   iconfontUrl: '',

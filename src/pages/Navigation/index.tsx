@@ -38,9 +38,9 @@ const Navigation: React.FC = () => {
             </div>
             <div className={styles.NavBtns}>
                 <Space>
-                    <a target="_blank">公众服务</a>
-                    <a target="_blank">文化宣传</a>
-                    <a target="_blank">办公平台</a>
+                    <a href="/publicservice" target="_blank">公众服务</a>
+                    <a href="/cultural" target="_blank">文化宣传</a>
+                    <a href="/officeplatform" target="_blank" >办公平台</a>
                 </Space>
             </div>
         </div>

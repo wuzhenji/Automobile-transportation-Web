@@ -1,0 +1,47 @@
+.LeftMenu {
+  width: 200px;
+  border-right: 1px solid #dfdfdf;
+  box-shadow: -10px 0 8px -10px rgba(0, 0, 0, .3) inset;
+
+  h2 {
+    border-left: 4px solid #247BC2;
+    height: 18px;
+    font-size: 18px;
+    line-height: 18px;
+    padding-left: 40px;
+    color: #247BC2;
+    margin: 10px 0 15px 10px;
+
+    span {
+      font-size: 14px;
+      padding-left: 10px;
+      color: #a8a8a8;
+    }
+  }
+
+  ul {
+    li {
+      height: 32px;
+      margin-bottom: 1px;
+
+      a {
+        display: block;
+        background: url("~@/assets/images/sprites.png") 0 -60px no-repeat;
+        padding: 0 20px 0 40px;
+        line-height: 32px;
+        font-size: 14px;
+        color: #666;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        transition: none;
+
+        &:hover,
+        &.Select {
+          background: url("~@/assets/images/sprites.png") 0 -92px no-repeat;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

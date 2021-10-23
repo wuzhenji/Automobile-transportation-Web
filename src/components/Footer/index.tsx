@@ -12,7 +12,7 @@ export default () => {
     <div className={styles.FooterInner}>
       <Space>
         <span>{companyName}</span>
-        <span>{recordNo}</span>
+        <a href="http://beian.miit.gov.cn/" target="_blank">{recordNo}</a>
         <span>地址：{address}</span>
         <span>服务质量投诉电话：{phone}</span>
         <span>技术支持：科信处</span>
