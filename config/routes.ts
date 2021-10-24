@@ -2,7 +2,7 @@
   { // 导航首页
     name: 'Navigation',
     path: '/',
-    wrappers: ['@/layouts/GlobalLayout/index'],
+    wrappers: ['@/layouts/GlobalLayout'],
     component: '@/pages/Navigation',
   },
   { // 公众服务
@@ -40,13 +40,59 @@
   { // 文化宣传
     name: 'Cultural',
     path: '/cultural',
-    wrappers: ['@/layouts/GlobalLayout/index'],
-    component: '@/pages/Cultural'
+    wrappers: ['@/layouts/GlobalLayout'],
+    component: '@/layouts/CulturalLayout',
+    routes: [
+      { // 首页
+        path: '/cultural/index',
+        component: '@/pages/Cultural',
+      },
+      { // 公司概况
+        path: '/cultural/company',
+        component: '@/pages/Cultural/Company',
+      },
+      { // 下属企业
+        path: '/cultural/subcompany',
+        component: '@/pages/Cultural/SubCompany',
+      },
+      { // 荣誉墙
+        path: '/cultural/honor',
+        component: '@/pages/Cultural/Honor',
+      },
+      { // 大事记
+        path: '/cultural/memorabilia',
+        component: '@/pages/Cultural/Memorabilia',
+      },
+      { // 建党专栏
+        path: '/cultural/party',
+        component: '@/pages/Cultural/Party',
+      },
+      { // 重定向
+        path: '/cultural',
+        redirect: '/cultural/index'
+      }
+    ]
+  },
+  { // 文化宣传
+    name: 'Rules',
+    path: '/rules',
+    wrappers: ['@/layouts/GlobalLayout'],
+    component: '@/layouts/RulesLayout',
+    routes: [
+      { // 首页
+        path: '/rules/index',
+        component: '@/pages/Rules',
+      },
+      { // 重定向
+        path: '/rules',
+        redirect: '/rules/index'
+      }
+    ]
   },
   { // 办公平台
     name: 'OfficePlatform',
     path: '/officeplatform',
-    wrappers: ['@/layouts/GlobalLayout/index'],
+    wrappers: ['@/layouts/GlobalLayout'],
     component: '@/pages/OfficePlatform',
   },
   {

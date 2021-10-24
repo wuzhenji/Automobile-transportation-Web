@@ -15,13 +15,7 @@ const newsList = Array.from({ length: 7 }).map(v => (
 const PublicService: React.FC = () => {
 
     const [newsType, setNewsType] = useState<number>(1)
-    const contentStyle = {
-        height: '160px',
-        color: '#fff',
-        lineHeight: '160px',
-        textAlign: 'center',
-        background: '#364d79',
-    };
+
     return <div className={styles.PublicService}>
         <div className={styles.Title}>
             <h2>公众服务</h2>
@@ -37,7 +31,6 @@ const PublicService: React.FC = () => {
                 </a>
             </div>
             <div className={styles.Right}>
-                {/* <a href=""></a> */}
                 {/* <Swiper
                     spaceBetween={50}
                     slidesPerView={3}

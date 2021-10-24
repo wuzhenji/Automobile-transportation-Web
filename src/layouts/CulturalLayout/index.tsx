@@ -8,59 +8,48 @@ import classNames from 'classnames';
 
 const MenuList = [
   {
+    name: '首页',
+    path: '/cultural/index'
+  },
+  {
     name: '公司概况',
-    path: '/publicservice/company'
+    path: '/cultural/company'
   },
   {
     name: '下属企业',
-    path: '/publicservice/subcompany'
+    path: '/cultural/subcompany'
   },
   {
     name: '荣誉墙',
-    path: '/publicservice/honor'
+    path: '/cultural/honor'
   },
   {
-    name: '员工风采',
-    path: '/publicservice/staff'
+    name: '大事记',
+    path: '/cultural/memorabilia'
   },
   {
-    name: '文化宣传',
-    path: '/cultural'
+    name: '公众服务',
+    path: '/publicservice'
   },
   {
     name: '办公平台',
     path: '/officeplatform'
+  },
+  {
+    name: '云学堂',
+    path: 'http://ntqyjt.21tb.com/login/login.init.do?&elnScreen=1280*1024elnScreen'
   },
 ]
 const BasisLayout: React.FC = ({ children }) => {
 
   const { pathname = '' } = history.location
 
-  const Header1 = <div className={classNames(styles.Header, styles.Header1)}>
-    <div className={styles.ContainerInner}>
-      <div className={styles.Logo}>
-        <img onClick={() => history.push('/')} src={require('@/assets/images/logo1.jpg')} alt="" />
-      </div>
-      <div className={styles.MenuList}>
-        <li className={styles.Selected}><a href="/publicservice/index">首页</a></li>
-        {
-          MenuList.map((v, m) => (
-            <li key={m}>
-              <a href={v.path}>{v.name}</a>
-            </li>
-          ))
-        }
-      </div>
-    </div>
-  </div>
-
-  const Header2 = <div className={classNames(styles.Header, styles.Header2)}>
+  const Header = <div className={classNames(styles.Header, styles.Header2)}>
     <div className={styles.ContainerInner}>
       <div className={styles.Logo}>
         <img onClick={() => history.push('/')} src={require('@/assets/images/logo-3.jpg')} alt="" />
       </div>
       <div className={styles.MenuList2}>
-        <li><a href="/publicservice/index">首页</a></li>
         {
           MenuList.map((v, m) => (
             <li key={m} className={pathname === v.path ? styles.Selected : ''}>
@@ -73,7 +62,7 @@ const BasisLayout: React.FC = ({ children }) => {
   </div>
 
   return <div className={styles.BasisLayout}>
-    {pathname === '/publicservice/index' ? Header1 : Header2}
+    {Header}
     <div className={styles.Container}>{children}</div>
     <Footer />
   </div>;

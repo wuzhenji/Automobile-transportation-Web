@@ -12,7 +12,7 @@ const Home: React.FC = () => {
     initData: 'home/initData',
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <div className={styles.Home}>
