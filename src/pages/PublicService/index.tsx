@@ -2,7 +2,7 @@ import styles from './index.less'
 import React, { useState } from 'react'
 import { } from 'umi';
 import { } from 'antd';
-// import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 // import 'swiper/css';
 
 const newsList = Array.from({ length: 7 }).map(v => (
@@ -31,7 +31,7 @@ const PublicService: React.FC = () => {
                 </a>
             </div>
             <div className={styles.Right}>
-                {/* <Swiper
+                <Swiper
                     spaceBetween={50}
                     slidesPerView={3}
                     onSlideChange={() => console.log('slide change')}
@@ -41,7 +41,7 @@ const PublicService: React.FC = () => {
                     <SwiperSlide>Slide 2</SwiperSlide>
                     <SwiperSlide>Slide 3</SwiperSlide>
                     <SwiperSlide>Slide 4</SwiperSlide>
-                </Swiper> */}
+                </Swiper>
             </div>
         </div>
         <div className={styles.Title}>
