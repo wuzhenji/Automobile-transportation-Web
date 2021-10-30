@@ -3,8 +3,8 @@ import React from 'react'
 import { } from 'umi'
 import { } from 'antd'
 
-const OfficePlatform: React.FC = () => {
-    return <div className={styles.OfficePlatform}>
+const Oa: React.FC = () => {
+    return <div className={styles.Oa}>
         <div className={styles.Logo}>
             <img src={require("@/assets/images/logo.png")} alt="" />
         </div>
@@ -33,4 +33,4 @@ const OfficePlatform: React.FC = () => {
     </div>
 }
 
-export default OfficePlatform
+export default Oa
