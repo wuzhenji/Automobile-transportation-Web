@@ -47,7 +47,7 @@
   },
   {
     name: 'List',
-    path: '/List',
+    path: '/List/:cid/:pid/:nid/:fid',
     wrappers: ['@/layouts/GlobalLayout', '@/layouts/BasicLayout'],
     component: '@/pages/List',
   },

@@ -1,27 +1,43 @@
 import React from 'react';
 import styles from './index.less'
-import { } from 'umi';
+import { history, useParams } from 'umi';
 import { } from 'antd';
 import TopBanner from '@/components/TopBanner'
-import PageContainer from '@/components/PageContainer'
+import LeftMenu from '@/components/LeftMenu'
 
+// 根据pid获取menuList
 const menuList = [{
     title: '公司简介',
-    content: '<h1 style="text-align:center">南通汽运集团公司简介<h1>'
+    id: Math.floor(Math.random() * 100000),
+    isDetail: true,
 }, {
     title: '组织架构',
-    content: '<h1 style="text-align:center">南通汽运集团组织架构<h1>'
+    id: Math.floor(Math.random() * 100000),
+    isDetail: false,
 }, {
     title: '发展历程',
-    content: '<h1 style="text-align:center">南通汽运集团发展历程<h1>'
+    id: Math.floor(Math.random() * 100000),
+    isDetail: false,
 },]
 
 const Company: React.FC = () => {
 
+    const { cid, pid, nid, fid } = useParams()
+
     return <div className={styles.Page}>
         <TopBanner />
         <div className={styles.PageContent}>
-            <PageContainer title="公司概况" menuList={menuList} />
+            <LeftMenu menuList={menuList} title={"出行服务"} />
+            <div className={styles.RightContent}>
+                <div className={styles.Location}>您当前的位置：<a onClick={() => {
+                    fid === 'open' && history.push('/Open')
+                    fid === 'inside' && history.push('/Inside')
+                    fid === 'oa' && history.push('/Oa')
+                }}>{"出行服务"}</a>>{'旅客须知'}</div>
+                <div className={styles.HTMLContent}>
+                    <div dangerouslySetInnerHTML={{ __html: 'bababbababaab' }}></div>
+                </div>
+            </div>
         </div>
     </div>;
 };

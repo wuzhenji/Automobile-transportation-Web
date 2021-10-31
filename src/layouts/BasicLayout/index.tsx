@@ -62,8 +62,28 @@ const BasisLayout: React.FC = ({ children }) => {
     </div>
   </div>
 
+  const OaHeader = <div className={styles.Header}>
+    <div className={styles.ContainerInner}>
+      <div className={styles.Logo}>
+        <img onClick={() => history.push('/')} src={require('@/assets/images/logo-3.jpg')} alt="" />
+      </div>
+      <div className={styles.MenuList}>
+        {
+          MenuList.map((v, m) => (
+            <li key={m} className={pid === v.cmId ? styles.Selected : ''}>
+              <a onClick={() => {
+                routerLink('Detail', { cid: 'cid1111', pid: v.cmId, fid })
+              }}>{v.name}</a>
+            </li>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
   return <div className={styles.BasisLayout}>
-    {Header}
+    {['open', 'inside'].includes(fid) && Header}
+    {['oa'].includes(fid) && OaHeader}
     <div className={styles.Container}>{children}</div>
     <Footer />
   </div>;

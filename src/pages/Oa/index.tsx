@@ -2,6 +2,7 @@ import styles from './index.less'
 import React from 'react'
 import { } from 'umi'
 import { } from 'antd'
+import { routerLink } from '@/utils/utils'
 
 const Oa: React.FC = () => {
     return <div className={styles.Oa}>
@@ -12,7 +13,9 @@ const Oa: React.FC = () => {
             <div className={styles.CardItem}>
                 <img src="" alt="" />
                 <h2>规章制度</h2>
-                <a href="/rules/index" className={styles.LinkBtn}>点击查看</a>
+                <a onClick={() => {
+                    routerLink('List', { cid: 'cid1111', pid: '1111111', fid: 'oa' })
+                }} className={styles.LinkBtn}>点击查看</a>
             </div>
             <div className={styles.CardItem}>
                 <img src="" alt="" />
