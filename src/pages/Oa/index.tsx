@@ -1,37 +1,73 @@
 import styles from './index.less'
-import React from 'react'
-import { } from 'umi'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'umi'
 import { } from 'antd'
 import { routerLink } from '@/utils/utils'
+import { checkStatusCode } from '@/utils/request'
+import { getMainColAPI } from '@/services/common'
+import { PageLoading } from '@ant-design/pro-layout';
+import useModelHelp from '@/hooks/useModelHelp';
 
 const Oa: React.FC = () => {
+
+    // @ts-ignore
+    const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+    const { fragmentInfo } = modelState;
+    const { topData = [] } = fragmentInfo;
+
+    const [menuList, setMenuList] = useState<any[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (topData.length > 0) {
+            getColManage(topData[0].cmId)
+        }
+    }, [topData])
+
+    useEffect(() => {
+        dispatch({
+            type: 'global/getFragmentManage',
+            payload: { id: 3 }
+        })
+    }, [])
+
+    const getColManage = async (id: number) => {
+        setLoading(true)
+        const response = await getMainColAPI({ parentId: id, pageSize: 999, pageNum: 1 })
+        if (checkStatusCode(response)) {
+            const rows = response.data || [];
+            setMenuList(rows)
+        }
+        setLoading(false)
+    }
+
+    if (loading) {
+        return <PageLoading />
+    }
+
     return <div className={styles.Oa}>
         <div className={styles.Logo}>
             <img src={require("@/assets/images/logo.png")} alt="" />
         </div>
         <div className={styles.CardList}>
-            <div className={styles.CardItem}>
-                <img src="" alt="" />
-                <h2>规章制度</h2>
-                <a onClick={() => {
-                    routerLink('List', { cid: 'cid1111', pid: '1111111', fid: 'oa' })
-                }} className={styles.LinkBtn}>点击查看</a>
-            </div>
-            <div className={styles.CardItem}>
-                <img src="" alt="" />
-                <h2>办公自动化系统</h2>
-                <a href="http://58.221.239.187:10013" className={styles.LinkBtn}>立即登录</a>
-            </div>
-            <div className={styles.CardItem}>
-                <img src="" alt="" />
-                <h2>财务人力系统</h2>
-                <a href="http://58.221.14.202:1234" className={styles.LinkBtn}>立即登录</a>
-            </div>
-            <div className={styles.CardItem}>
-                <img src="" alt="" />
-                <h2>云学堂</h2>
-                <a href="http://ntqyjt.21tb.com/login/login.init.do?&elnScreen=1280*1024elnScreen" className={styles.LinkBtn}>立即登录</a>
-            </div>
+            {
+                menuList.map(v => (
+                    <div className={styles.CardItem} key={v.id}>
+                        <img src="" alt="" />
+                        <h2>{v.name}</h2>
+                        <a onClick={() => {
+                            if (v.webUrl) {
+                                location.href = v.webUrl
+                            } else if (v.hasChild) {
+                                routerLink('Detail', { cid: 0, pid: v.id, fid: 'oa' })
+                            } else {
+                                v.singleWeb && routerLink('Detail', { cid: v.id, pid: topData[0].cmId, fid: 'oa' })
+                                !v.singleWeb && routerLink('List', { cid: v.id, pid: topData[0].cmId, fid: 'oa' })
+                            }
+                        }} className={styles.LinkBtn}>{v.webUrl ? '立即登录' : '点击查看'}</a>
+                    </div>
+                ))
+            }
         </div>
     </div>
 }

@@ -1,34 +1,48 @@
 import styles from './index.less';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { } from 'antd';
 import Footer from '@/components/Footer';
-import { routerLink } from '@/utils/utils'
+import useModelHelp from '@/hooks/useModelHelp';
+import { getMainColAPI } from '@/services/common'
+import { checkStatusCode } from '@/utils/request'
+import { PageLoading } from '@ant-design/pro-layout';
 
-// 接口请求数据MenuList
-const MenuList = [
-  {
-    name: '公司概况',
-    cmId: '111111111111111'
-  },
-  {
-    name: '下属企业',
-    cmId: '222222222222222'
-  },
-  {
-    name: '荣誉墙',
-    cmId: '333333333333333'
-  },
-  {
-    name: '大事记',
-    cmId: '555555555555555'
-  },
-  {
-    name: '云学堂',
-    cmId: '666666666666666'
-  },
-]
 const InsideLayout: React.FC = ({ children }) => {
+
+  const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+  const { fragmentInfo } = modelState;
+  const { topData = [] } = fragmentInfo;
+  const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    dispatch({
+      type: 'global/getFragmentManage',
+      payload: { id: 2 }
+    })
+  }, [])
+
+  const getColManage = async (parentId: string) => {
+    setLoading(true)
+    const response = await getMainColAPI({ parentId: parentId })
+    if (checkStatusCode(response)) {
+      const { data = [] } = response
+      if (data.length > 0) {
+        const { id, webUrl, singleWeb } = data[0]
+        if (webUrl) {
+          window.open(webUrl)
+        } else {
+          singleWeb && (location.href = `/Detail/${id}/${parentId}/0/inside`)
+          !singleWeb && (location.href = `/List/${id}/${parentId}/0/inside`)
+        }
+      }
+    }
+    setLoading(false)
+  }
+
+  if (loading) {
+    return <PageLoading />
+  }
 
   const Header = <div className={styles.Header}>
     <div className={styles.ContainerInner}>
@@ -40,12 +54,12 @@ const InsideLayout: React.FC = ({ children }) => {
           <a href='/Inside'>首页</a>
         </li>
         {
-          MenuList.map((v, m) => (
+          topData.map((v: any, m: number) => (
             <li key={m}>
               <a onClick={() => {
                 // 先判断是否是外链=>直接跳转
                 // 根据cmId查询子集=>根据子集第一个是否是单页面判断跳转到Detail还是List
-                routerLink('Detail', { cid: 'cid1111', pid: v.cmId, fid: 'inside' })
+                getColManage(v.cmId)
               }}>{v.name}</a>
             </li>
           ))

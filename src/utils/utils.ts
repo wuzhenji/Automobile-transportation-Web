@@ -8,15 +8,16 @@ export const isUrl = (path: string): boolean => reg.test(path);
 
 const HOST = (<any>window).bizApiUrl || '';
 
-export const bizUrl = (url: string): string => `${HOST}${url}`;
+export const bizUrl = (url: string): string => `${'http://192.168.0.113:8080'}${url}`;
 
 // 定制路由跳转
-export const routerLink = (type: 'List' | 'Detail', params: { cid: number | string; pid: number | string; nid?: number | string; fid: 'open' | 'inside' | 'oa' }) => {
+export const routerLink = (type: 'List' | 'Detail', params: { cid: number | string; pid: number | string; nid?: number | string; fid: 'open' | 'inside' | 'oa' }, linkType: 'push' | 'replace' = 'push') => {
   const { cid, pid, nid = 0, fid } = params
   // @ts-ignore
   // history.push({
   //   pathname: type,
   //   query: { ...params, nid }
   // })
-  history.push(`/${type}/${cid}/${pid}/${nid}/${fid}`)
+  linkType === 'push' && (location.href = `/${type}/${cid}/${pid}/${nid}/${fid}`)
+  linkType === 'replace' && location.replace(`/${type}/${cid}/${pid}/${nid}/${fid}`)
 }

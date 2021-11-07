@@ -28,6 +28,24 @@ const Cultural: React.FC = () => {
         <div className={styles.Banner}></div>
         <div className={styles.Content}>
             <a href="/" className={styles.Navigation}>>返回首页</a>
+            <div className={styles.News}>
+                <div className={styles.NewsCover}>
+                    <img src={require('@/assets/images/dangshixx04.jpg')} alt="" />
+                    <div className={styles.NewsCoverInfo}>
+                        <span>习近平在党史学习教育动员大会上强调 学党史悟思想办实</span>
+                        <a>更多</a>
+                    </div>
+                </div>
+                <div className={styles.NewsList}>
+                    {
+                        Array.from({ length: 6 }).map(v => (
+                            <li>
+                                <a href="" target="_blank">· 党史学习教育领导小组印发《关于深入推进“我为群众办实事”实践活动的通知》</a>
+                            </li>
+                        ))
+                    }
+                </div>
+            </div>
             <a href="https://www.12371.cn/dsxx/" target="_blank" className={styles.ImgHref}>
                 <img src={require('@/assets/images/dangshixx06.jpg')} alt="" />
             </a>

@@ -4,7 +4,7 @@ export interface IBaseModel<T> {
   namespace: string;
   state: T;
   effects: {
-    initData: Effect;
+    // initData: Effect;
     [effectAction: string]: Effect;
   };
   reducers: {

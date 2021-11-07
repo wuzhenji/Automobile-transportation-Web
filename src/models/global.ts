@@ -1,34 +1,55 @@
 import { IBaseModel } from '@/pages/index.d';
 import { checkStatusCode } from '@/utils/request';
-import { queryCurrentUser } from '@/services/user';
+import { getFragmentManageAPI, getContentManageAPI, getColManageAPI } from '@/services/common'
 
 interface IModelState {
-  userInfo:
-    | {
-        avatar?: string;
-        name?: string;
-        userid?: string;
-      }
-    | undefined;
+  fragmentInfo: {
+    topData?: any[]
+    otherData?: {}
+  }
 }
 const Model: IBaseModel<IModelState> = {
   namespace: 'global',
   state: {
-    userInfo: undefined,
+    fragmentInfo: {},
   },
   effects: {
-    *initData({ payload }, { put, call, select, take }) {
-      const response = yield queryCurrentUser(payload);
+    // 碎片化管理首页内容
+    *getFragmentManage({ payload }, { put, call, select, take }) {
+      const response = yield getFragmentManageAPI(payload);
       if (checkStatusCode(response)) {
-        const userInfo = response.data || {};
+        const result = response.data || {};
+        const topData = result.topData ? JSON.parse(result.topData) : [];
+        const otherData = result.otherData ? JSON.parse(result.otherData) : {};
+        const fragmentInfo = { topData, otherData }
         yield put({
           type: 'saveState',
-          payload: {
-            userInfo,
-          },
+          payload: { fragmentInfo },
         });
       }
     },
+    *getContentManage({ payload }, { put, call, select, take }) {
+      const { type, params } = payload
+      const response = yield getContentManageAPI(params);
+      if (checkStatusCode(response)) {
+        const rows = response.rows || [];
+        yield put({
+          type: 'saveState',
+          payload: { [type]: rows },
+        });
+      }
+    },
+    *getColManage({ payload }, { put, call, select, take }) {
+      const { type, params } = payload
+      const response = yield getColManageAPI(params);
+      if (checkStatusCode(response)) {
+        const rows = response.data || [];
+        yield put({
+          type: 'saveState',
+          payload: { [type]: rows },
+        });
+      }
+    }
   },
   reducers: {
     saveState(state, action) {

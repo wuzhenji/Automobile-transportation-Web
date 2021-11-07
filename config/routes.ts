@@ -17,22 +17,6 @@
     wrappers: ['@/layouts/GlobalLayout', '@/layouts/InsideLayout'],
     component: '@/pages/Inside'
   },
-  // { // 文化宣传
-  //   name: 'Rules',
-  //   path: '/rules',
-  //   wrappers: ['@/layouts/GlobalLayout'],
-  //   component: '@/layouts/RulesLayout',
-  //   routes: [
-  //     { // 首页
-  //       path: '/rules/index',
-  //       component: '@/pages/Rules',
-  //     },
-  //     { // 重定向
-  //       path: '/rules',
-  //       redirect: '/rules/index'
-  //     }
-  //   ]
-  // },
   { // 办公平台
     name: 'Oa',
     path: '/Oa',

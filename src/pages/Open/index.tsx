@@ -1,29 +1,26 @@
 import styles from './index.less'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { } from 'umi';
 import { } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.less';
 import { useInterval } from 'ahooks';
+import { getFragmentManageAPI, getContentManageAPI, getColManageAPI } from '@/services/common'
+import { checkStatusCode } from '@/utils/request'
+import useModelHelp from '@/hooks/useModelHelp';
 
-const newsList = Array.from({ length: 7 }).map(v => (
-    {
-
-        title: '出门散心：不辜负春光 400名游客首400名游客首400名游客首400名游客首',
-        time: '2020/04/01'
-    }
-))
 const colors = ['#632F00', '#00b10e', '#00bffe', '#2a72eb', '#F4B300', '#4e32a9', '#cf4020', '#61b118']
-const breafNews = [
-    { title: '苏汽集团高管团队来我司调研交流', img: require('@/assets/images/dangshixx02.jpg') },
-    { title: '以赛促学，南通汽运集团党史学习教育知识竞赛', img: require('@/assets/images/dangshixx03.png') },
-    { title: '南通汽运集团召开党史学习教育专题党课暨党委', img: require('@/assets/images/dangshixx04.jpg') }
-]
 const Open: React.FC = () => {
+
+    const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+    const { fragmentInfo, typeContent_1, typeContent_4, typeContent_5, typeContent_6 } = modelState;
+    const { otherData = {} } = fragmentInfo;
 
     const [newsType, setNewsType] = useState<number>(1)
     const [breafNewIndex, setBreafNewIndex] = useState<number>(0)
-    const [interval, setInterval] = useState<number | null>(3000);
+    const [interval, setInterval] = useState<number | null>(null);
+
+    const breafNews = typeContent_4?.splice(0, 3) || []
 
     // 每3秒轮播一次
     useInterval(
@@ -34,9 +31,45 @@ const Open: React.FC = () => {
         { immediate: false },
     );
 
+    useEffect(() => {
+        initData()
+    }, [])
+
+
+    useEffect(() => {
+        const { type1 = {}, type2 = {}, type3 = {}, type4 = {}, type5 = {}, type6 = {} } = otherData;
+        type1.cmId && getColManage("typeContent_1", { parentId: type1.cmId, pageSize: 999, pageNum: 1 })
+        type4.cmId && getContentManage("typeContent_4", { cmId: type4.cmId, pageSize: 7, pageNum: 1 })
+        type5.cmId && getContentManage("typeContent_5", { cmId: type5.cmId, pageSize: 7, pageNum: 1 })
+        type6.cmId && getContentManage("typeContent_6", { cmId: type6.cmId, pageSize: 7, pageNum: 1 })
+    }, [otherData])
+
+    const initData = async () => {
+    }
+
+    const getContentManage = (type: string, params: any) => {
+        dispatch({
+            type: 'global/getContentManage',
+            payload: {
+                type,
+                params
+            }
+        })
+    }
+
+    const getColManage = async (type: string, params: any) => {
+        dispatch({
+            type: 'global/getColManage',
+            payload: {
+                type,
+                params
+            }
+        })
+    }
+
     return <div className={styles.Open}>
         <div className={styles.Title}>
-            <h2>公众服务</h2>
+            <h2>{otherData["type1"]?.name}</h2>
         </div>
         <div className={styles.ServiceBox}>
             <div className={styles.Left}>
@@ -56,10 +89,11 @@ const Open: React.FC = () => {
                     slidesPerColumnFill='row'
                 >
                     {
-                        Array.from({ length: 10 }).map((v, m) => (
+                        typeContent_1?.map((v: any, m: number) => (
                             <SwiperSlide className={styles.SwiperSlide} key={m}>
                                 <a href="" style={{ background: colors[m % 8] }}>
-                                    <img src={require('@/assets/images/icons1.png')} alt="" />出行服务
+                                    <img src={require('@/assets/images/icons1.png')} alt="" />
+                                    {v.cmName}
                                 </a>
                             </SwiperSlide>
                         ))
@@ -68,60 +102,91 @@ const Open: React.FC = () => {
             </div>
         </div>
         <div className={styles.Title}>
-            <h2>新闻报道</h2>
+            <h2>{otherData["type3"]?.name}</h2>
         </div>
         <div className={styles.News}>
-            <div className={styles.NewsSwiper} onMouseOver={() => setInterval(null)} onMouseOut={() => setInterval(3000)}>
+            {/* <div className={styles.NewsSwiper} onMouseOver={() => setInterval(null)} onMouseOut={() => setInterval(3000)}> */}
+            <div className={styles.NewsSwiper} onMouseOver={() => setInterval(null)} onMouseOut={() => setInterval(null)}>
                 <img onClick={() => {
                     // 跳转
-                }} className={styles.CoverImg} src={breafNews[breafNewIndex].img} alt="" />
+                }} className={styles.CoverImg} src={breafNews[breafNewIndex]?.contentThumbnailList[0]?.url} alt="" />
                 <div className={styles.Control}>
-                    <div className={styles.Text}>{breafNews[breafNewIndex].title}</div>
+                    <div className={styles.Text}>{breafNews[breafNewIndex]?.conTitle}</div>
                     <p>
-                        <span className={breafNewIndex === 0 ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(0) }}></span>
-                        <span className={breafNewIndex === 1 ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(1) }}></span>
-                        <span className={breafNewIndex === 2 ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(2) }}></span>
+                        {
+                            Array.from({ length: breafNews.length }).map((v, m) => {
+                                <span className={breafNewIndex === m ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(m) }}></span>
+                            })
+                        }
                     </p>
                 </div>
             </div>
             <div className={styles.NewsList}>
                 <div className={styles.NewsTitle}>
-                    <span className={styles.Select}>集团新闻</span>
+                    <span className={styles.Select}>{otherData["type4"]?.name}</span>
                 </div>
                 <ul>
                     {
-                        newsList.map((v, m) => (
+                        typeContent_4?.map((v: any, m: number) => (
                             <li key={m}>
-                                <a href="">{v.title}</a>
-                                <span>{v.time}</span>
+                                <a href="">{v.conTitle}</a>
+                                <span>{v.createTime.substring(0, 10)}</span>
                             </li>
                         ))
                     }
                     <li></li>
                 </ul>
-                <div className={styles.More}>
-                    <a href="">MORE+</a>
-                </div>
+                {
+                    typeContent_4?.length > 0 && <div className={styles.More}>
+                        <a href="">MORE+</a>
+                    </div>
+                }
             </div>
             <div className={styles.NewsList}>
                 <div className={styles.NewsTitle}>
-                    <span className={newsType === 1 ? styles.Select : ''} onMouseOver={() => { setNewsType(1) }}>招标公告</span>
-                    <span className={newsType === 2 ? styles.Select : ''} onMouseOver={() => { setNewsType(2) }}>服务公告</span>
+                    <span className={newsType === 1 ? styles.Select : ''} onMouseOver={() => { setNewsType(1) }}>{otherData["type5"]?.name}</span>
+                    <span className={newsType === 2 ? styles.Select : ''} onMouseOver={() => { setNewsType(2) }}>{otherData["type6"]?.name}</span>
                 </div>
-                <ul>
-                    {
-                        newsList.map((v, m) => (
-                            <li key={m}>
-                                <a href="">{v.title}</a>
-                                <span>{v.time}</span>
-                            </li>
-                        ))
-                    }
-                    <li></li>
-                </ul>
-                <div className={styles.More}>
-                    <a href="">MORE+</a>
-                </div>
+                {
+                    newsType === 1 && <>
+                        <ul>
+                            {
+                                typeContent_5?.map((v: any, m: number) => (
+                                    <li key={m}>
+                                        <a href="">{v.conTitle}</a>
+                                        <span>{v.createTime.substring(0, 10)}</span>
+                                    </li>
+                                ))
+                            }
+                            <li></li>
+                        </ul>
+                        {
+                            typeContent_5?.length > 0 && <div className={styles.More}>
+                                <a href="">MORE+</a>
+                            </div>
+                        }
+                    </>
+                }
+                {
+                    newsType === 2 && <>
+                        <ul>
+                            {
+                                typeContent_6?.map((v: any, m: number) => (
+                                    <li key={m}>
+                                        <a href="">{v.conTitle}</a>
+                                        <span>{v.createTime.substring(0, 10)}</span>
+                                    </li>
+                                ))
+                            }
+                            <li></li>
+                        </ul>
+                        {
+                            typeContent_6?.length > 0 && <div className={styles.More}>
+                                <a href="">MORE+</a>
+                            </div>
+                        }
+                    </>
+                }
             </div>
         </div>
     </div >

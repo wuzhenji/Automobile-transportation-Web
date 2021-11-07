@@ -19,10 +19,16 @@ const LeftMenu: React.FC<IProps> = (props) => {
             {
                 menuList.map((v, m) => (
                     <li key={m}>
-                        <a className={styles.Select} onClick={() => {
-                            v.isDetail && routerLink('Detail', { cid: 'cid1111', pid: v.id, fid })
-                            !v.isDetail && routerLink('List', { cid: 'cid1111', pid: v.id, fid })
-                        }}>{v.title}</a>
+                        <a className={+cid === v.id ? styles.Select : ''} onClick={() => {
+                            if (v.webUrl) {
+                                location.href = v.webUrl
+                            } else if (v.hasChild) {
+                                routerLink('Detail', { cid: 0, pid: v.id, fid })
+                            } else {
+                                v.singleWeb && routerLink('Detail', { cid: v.id, pid: pid, fid })
+                                !v.singleWeb && routerLink('List', { cid: v.id, pid: pid, fid })
+                            }
+                        }}>{v.name}</a>
                     </li>
                 ))
             }

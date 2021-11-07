@@ -17,7 +17,7 @@ body {
 body {
   // min-width: 1280px;
   font-family: 'SF Pro SC', 'HanHei SC', 'SF Pro Text', 'Myriad Set Pro', 'PingFang SC', 'Helvetica Neue', 'microsoft yahei', 'Microsoft YaHei', SimHei,
-  sans-serif;
+    sans-serif;
   font-size: 12px;
   //line-height: @line-height-base;
   color: #333;
@@ -132,4 +132,8 @@ samp {
   //font-family: @code-family;
 }
 
-
+.RichText {
+  img {
+    max-width: 100% !important;
+  }
+}

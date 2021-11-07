@@ -1,5 +1,5 @@
-import {} from 'umi';
-import {} from 'antd';
+import { } from 'umi';
+import { } from 'antd';
 import styles from './index.less';
 import React, { useEffect } from 'react';
 import useModelHelp from '@/hooks/useModelHelp';
@@ -8,22 +8,22 @@ import classNames from '_classnames@2.3.1@classnames';
 
 const GlobalLayout: React.FC = ({ children }) => {
   const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
-  const { userInfo } = modelState;
-  const actions = {
-    initData: 'global/initData',
-  };
+  // const { userInfo } = modelState;
+  // const actions = {
+  //   initData: 'global/initData',
+  // };
 
-  useEffect(() => {
-    if (!userInfo) {
-      dispatch({
-        type: actions.initData,
-      });
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  // if (!userInfo) {
+  //   dispatch({
+  //     type: actions.initData,
+  //   });
+  // }
+  // }, [userInfo]);
 
-  if (!userInfo) {
-    return <PageLoading />;
-  }
+  // if (!userInfo) {
+  // return <PageLoading />;
+  // }
 
   // 做登录验证
   return <div className={classNames(styles.GlobalLayout, 'InnerWidth')}>{children}</div>;

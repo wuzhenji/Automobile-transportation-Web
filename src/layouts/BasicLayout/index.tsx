@@ -1,34 +1,69 @@
 import styles from './index.less';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { history, useParams } from 'umi';
 import { } from 'antd';
 import Footer from '@/components/Footer';
 import { routerLink } from '@/utils/utils'
-
-// 根据fid请求数据
-const MenuList = [
-  {
-    name: '公司概况',
-    cmId: '111111111111111'
-  },
-  {
-    name: '下属企业',
-    cmId: '222222222222222'
-  },
-  {
-    name: '荣誉墙',
-    cmId: '333333333333333'
-  },
-  {
-    name: '员工风采',
-    cmId: '444444444444444'
-  },
-]
+import useModelHelp from '@/hooks/useModelHelp';
+import { getMainColAPI } from '@/services/common'
+import { checkStatusCode } from '@/utils/request'
+import { PageLoading } from '@ant-design/pro-layout';
 
 const BasisLayout: React.FC = ({ children }) => {
-  console.log(useParams())
+
   // @ts-ignore
   const { cid, pid, nid, fid } = useParams()
+  const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+  const { fragmentInfo } = modelState;
+  const { topData = [] } = fragmentInfo;
+  const [loading, setLoading] = useState<boolean>(false)
+  const [menuList, setMenuList] = useState<any[]>([])
+
+  useEffect(() => {
+    const id = fid === 'open' ? 1 : fid === 'inside' ? 2 : 3
+    dispatch({
+      type: 'global/getFragmentManage',
+      payload: { id }
+    })
+  }, [fid])
+
+  useEffect(() => {
+    if (fid === 'oa' && topData.length > 0) {
+      getOaColManage(topData[0].cmId)
+    }
+  }, [topData])
+
+  const getOaColManage = async (id: number) => {
+    setLoading(true)
+    const response = await getMainColAPI({ parentId: id, pageSize: 999, pageNum: 1 })
+    if (checkStatusCode(response)) {
+        const rows = response.data || [];
+        setMenuList(rows)
+    }
+    setLoading(false)
+}
+
+  const getColManage = async (parentId: string) => {
+    setLoading(true)
+    const response = await getMainColAPI({ parentId: parentId })
+    if (checkStatusCode(response)) {
+      const { data = [] } = response
+      if (data.length > 0) {
+        const { id, webUrl, singleWeb } = data[0]
+        if (webUrl) {
+          window.open(webUrl)
+        } else {
+          singleWeb && (location.href = `/Detail/${id}/${parentId}/${nid}/${fid}`)
+          !singleWeb && (location.href = `/List/${id}/${parentId}/${nid}/${fid}`)
+        }
+      }
+    }
+    setLoading(false)
+  }
+
+  if (loading) {
+    return <PageLoading />
+  }
 
   const Header = <div className={styles.Header}>
     <div className={styles.ContainerInner}>
@@ -43,10 +78,10 @@ const BasisLayout: React.FC = ({ children }) => {
           fid === 'inside' && <li><a href="/Inside">首页</a></li>
         }
         {
-          MenuList.map((v, m) => (
-            <li key={m} className={pid === v.cmId ? styles.Selected : ''}>
+          topData.map((v: any, m: number) => (
+            <li key={m} className={+pid === v.cmId ? styles.Selected : ''}>
               <a onClick={() => {
-                routerLink('Detail', { cid: 'cid1111', pid: v.cmId, fid })
+                getColManage(v.cmId)
               }}>{v.name}</a>
             </li>
           ))
@@ -69,10 +104,17 @@ const BasisLayout: React.FC = ({ children }) => {
       </div>
       <div className={styles.MenuList}>
         {
-          MenuList.map((v, m) => (
-            <li key={m} className={pid === v.cmId ? styles.Selected : ''}>
+          menuList.map((v: any, m: number) => (
+            <li key={m} className={pid == v.id ? styles.Selected : ''}>
               <a onClick={() => {
-                routerLink('Detail', { cid: 'cid1111', pid: v.cmId, fid })
+                if (v.webUrl) {
+                    location.href = v.webUrl
+                } else if (v.hasChild) {
+                    routerLink('Detail', { cid: 0, pid: v.id, fid })
+                } else {
+                    v.singleWeb && routerLink('Detail', { cid: v.id, pid: topData[0].cmId, fid })
+                    !v.singleWeb && routerLink('List', { cid: v.id, pid: topData[0].cmId, fid })
+                }
               }}>{v.name}</a>
             </li>
           ))
