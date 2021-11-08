@@ -5,7 +5,7 @@ import { } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.less';
 import { useInterval } from 'ahooks';
-import { getFragmentManageAPI, getContentManageAPI, getColManageAPI } from '@/services/common'
+import { getContentManageAPI, getColManageAPI } from '@/services/common'
 import { checkStatusCode } from '@/utils/request'
 import useModelHelp from '@/hooks/useModelHelp';
 
@@ -13,14 +13,15 @@ const colors = ['#632F00', '#00b10e', '#00bffe', '#2a72eb', '#F4B300', '#4e32a9'
 const Open: React.FC = () => {
 
     const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
-    const { fragmentInfo, typeContent_1, typeContent_4, typeContent_5, typeContent_6 } = modelState;
+    const { fragmentInfo } = modelState;
     const { otherData = {} } = fragmentInfo;
+    const [typeContent, setTypeContent] = useState<any>({ typeContent_1: [], typeContent_4: [], typeContent_5: [], typeContent_6: [] })
+    const { typeContent_1, typeContent_4, typeContent_5, typeContent_6 } = typeContent
 
     const [newsType, setNewsType] = useState<number>(1)
     const [breafNewIndex, setBreafNewIndex] = useState<number>(0)
     const [interval, setInterval] = useState<number | null>(null);
-
-    const breafNews = typeContent_4?.splice(0, 3) || []
+    const breafNews = typeContent_4.slice(0, 3) || []
 
     // 每3秒轮播一次
     useInterval(
@@ -32,7 +33,7 @@ const Open: React.FC = () => {
     );
 
     useEffect(() => {
-        initData()
+
     }, [])
 
 
@@ -44,27 +45,22 @@ const Open: React.FC = () => {
         type6.cmId && getContentManage("typeContent_6", { cmId: type6.cmId, pageSize: 7, pageNum: 1 })
     }, [otherData])
 
-    const initData = async () => {
-    }
-
-    const getContentManage = (type: string, params: any) => {
-        dispatch({
-            type: 'global/getContentManage',
-            payload: {
-                type,
-                params
-            }
-        })
+    const getContentManage = async (type: string, params: any) => {
+        const response = await getContentManageAPI(params)
+        if (checkStatusCode(response)) {
+            const rows = response.rows || [];
+            typeContent[type] = rows
+            setTypeContent({ ...typeContent })
+        }
     }
 
     const getColManage = async (type: string, params: any) => {
-        dispatch({
-            type: 'global/getColManage',
-            payload: {
-                type,
-                params
-            }
-        })
+        const response = await getColManageAPI(params)
+        if (checkStatusCode(response)) {
+            const rows = response.data || [];
+            typeContent[type] = rows
+            setTypeContent({ ...typeContent })
+        }
     }
 
     return <div className={styles.Open}>
@@ -91,7 +87,15 @@ const Open: React.FC = () => {
                     {
                         typeContent_1?.map((v: any, m: number) => (
                             <SwiperSlide className={styles.SwiperSlide} key={m}>
-                                <a href="" style={{ background: colors[m % 8] }}>
+                                <a onClick={() => {
+                                    const { cmId, parentId, webUrl, singleWeb } = v
+                                    if (webUrl) {
+                                        window.open(webUrl)
+                                    } else {
+                                        singleWeb === '1' && (location.href = `/Detail/${cmId}/${parentId}/0/open`)
+                                        singleWeb === '2' && (location.href = `/List/${cmId}/${parentId}/0/open`)
+                                    }
+                                }} style={{ background: colors[m % 8] }}>
                                     <img src={require('@/assets/images/icons1.png')} alt="" />
                                     {v.cmName}
                                 </a>
@@ -114,9 +118,9 @@ const Open: React.FC = () => {
                     <div className={styles.Text}>{breafNews[breafNewIndex]?.conTitle}</div>
                     <p>
                         {
-                            Array.from({ length: breafNews.length }).map((v, m) => {
+                            Array.from({ length: breafNews.length }).map((v, m) => (
                                 <span className={breafNewIndex === m ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(m) }}></span>
-                            })
+                            ))
                         }
                     </p>
                 </div>
@@ -129,7 +133,10 @@ const Open: React.FC = () => {
                     {
                         typeContent_4?.map((v: any, m: number) => (
                             <li key={m}>
-                                <a href="">{v.conTitle}</a>
+                                <a onClick={() => {
+                                    const { cmId, conId, parentId } = v
+                                    location.href = `/Detail/${cmId}/${parentId}/${conId}/open`
+                                }}>{v.conTitle}</a>
                                 <span>{v.createTime.substring(0, 10)}</span>
                             </li>
                         ))
@@ -138,7 +145,10 @@ const Open: React.FC = () => {
                 </ul>
                 {
                     typeContent_4?.length > 0 && <div className={styles.More}>
-                        <a href="">MORE+</a>
+                        <a onClick={() => {
+                            const { cmId, parentId } = typeContent_4[0]
+                            location.href = `/List/${cmId}/${parentId}/0/open`
+                        }}>MORE+</a>
                     </div>
                 }
             </div>
@@ -153,7 +163,10 @@ const Open: React.FC = () => {
                             {
                                 typeContent_5?.map((v: any, m: number) => (
                                     <li key={m}>
-                                        <a href="">{v.conTitle}</a>
+                                        <a onClick={() => {
+                                            const { cmId, conId, parentId } = v
+                                            location.href = `/Detail/${cmId}/${parentId}/${conId}/open`
+                                        }}>{v.conTitle}</a>
                                         <span>{v.createTime.substring(0, 10)}</span>
                                     </li>
                                 ))
@@ -162,7 +175,10 @@ const Open: React.FC = () => {
                         </ul>
                         {
                             typeContent_5?.length > 0 && <div className={styles.More}>
-                                <a href="">MORE+</a>
+                                <a onClick={() => {
+                                    const { cmId, parentId } = typeContent_5[0]
+                                    location.href = `/List/${cmId}/${parentId}/0/open`
+                                }}>MORE+</a>
                             </div>
                         }
                     </>
@@ -173,7 +189,10 @@ const Open: React.FC = () => {
                             {
                                 typeContent_6?.map((v: any, m: number) => (
                                     <li key={m}>
-                                        <a href="">{v.conTitle}</a>
+                                        <a onClick={() => {
+                                            const { cmId, conId, parentId } = v
+                                            location.href = `/Detail/${cmId}/${parentId}/${conId}/open`
+                                        }}>{v.conTitle}</a>
                                         <span>{v.createTime.substring(0, 10)}</span>
                                     </li>
                                 ))
@@ -182,7 +201,10 @@ const Open: React.FC = () => {
                         </ul>
                         {
                             typeContent_6?.length > 0 && <div className={styles.More}>
-                                <a href="">MORE+</a>
+                                <a onClick={() => {
+                                    const { cmId, parentId } = typeContent_6[0]
+                                    location.href = `/List/${cmId}/${parentId}/0/open`
+                                }}>MORE+</a>
                             </div>
                         }
                     </>

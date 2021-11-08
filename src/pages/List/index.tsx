@@ -89,13 +89,22 @@ const Company: React.FC = () => {
                     {
                         newsList.map((v, m) => (
                             <div key={m} className={styles.ItemList}>
-                                <div className={styles.ItemTitle}>
-                                    <a onClick={() => {
-                                        window.open(`/Detail/${cid}/${pid}/${v.conId}/${fid}`)
-                                    }}>{v.conTitle}</a>
-                                    <span>{v.createTime}</span>
+                                <div className={styles.ItemHead}>
+                                    {
+                                        v.contentThumbnailList.length > 0 && <div className={styles.ItemCover}>
+                                            <img src={v.contentThumbnailList[0]?.url} alt="" />
+                                        </div>
+                                    }
+                                    <div className={styles.ItemInner}>
+                                        <div className={styles.ItemTitle}>
+                                            <a onClick={() => {
+                                                window.open(`/Detail/${cid}/${pid}/${v.conId}/${fid}`)
+                                            }}>{v.conTitle}</a>
+                                            <span>{v.createTime}</span>
+                                        </div>
+                                        <div className={styles.ItemContent} dangerouslySetInnerHTML={{ __html: v.content }} ></div>
+                                    </div>
                                 </div>
-                                <div className={styles.ItemContent} dangerouslySetInnerHTML={{ __html: v.content }} ></div>
                                 <div className={styles.ShowDetail}>
                                     <a onClick={() => {
                                         window.open(`/Detail/${cid}/${pid}/${v.conId}/${fid}`)

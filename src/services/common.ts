@@ -1,5 +1,6 @@
 import { bizUrl } from '@/utils/utils';
 import { GET, POST } from '@/utils/request';
+import moment from 'moment';
 
 // 获取文章
 export const getFragmentManageAPI = async (params: any) => {
@@ -8,7 +9,7 @@ export const getFragmentManageAPI = async (params: any) => {
 
 // 获取文章
 export const getContentManageAPI = async (params: any) => {
-    return GET(bizUrl('/content/manage/list'), { ...params, status: 1 });
+    return GET(bizUrl('/content/manage/list'), { ...params, status: 1, type: 1 });
 };
 
 // 获取子集

@@ -27,28 +27,6 @@ const Model: IBaseModel<IModelState> = {
           payload: { fragmentInfo },
         });
       }
-    },
-    *getContentManage({ payload }, { put, call, select, take }) {
-      const { type, params } = payload
-      const response = yield getContentManageAPI(params);
-      if (checkStatusCode(response)) {
-        const rows = response.rows || [];
-        yield put({
-          type: 'saveState',
-          payload: { [type]: rows },
-        });
-      }
-    },
-    *getColManage({ payload }, { put, call, select, take }) {
-      const { type, params } = payload
-      const response = yield getColManageAPI(params);
-      if (checkStatusCode(response)) {
-        const rows = response.data || [];
-        yield put({
-          type: 'saveState',
-          payload: { [type]: rows },
-        });
-      }
     }
   },
   reducers: {

@@ -1,7 +1,10 @@
 import styles from './index.less'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { } from 'umi'
 import { } from 'antd'
+import { getContentManageAPI } from '@/services/common'
+import { checkStatusCode } from '@/utils/request'
+import useModelHelp from '@/hooks/useModelHelp';
 
 const newsList = [
     {
@@ -24,23 +27,52 @@ const newsList = [
     },
 ]
 const Cultural: React.FC = () => {
+
+    const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+    const { fragmentInfo } = modelState;
+    const { otherData = {} } = fragmentInfo;
+
+    const [typeContent, setTypeContent] = useState<any>({ typeContent_1: [], typeContent_2: [] })
+    const { typeContent_1, typeContent_2 } = typeContent
+
+    useEffect(() => {
+        const { type1 = {}, type2 = {} } = otherData;
+        type1.cmId && getContentManage("typeContent_1", { cmId: type1.cmId, pageSize: 6, pageNum: 1 })
+        type2.cmId && getContentManage("typeContent_2", { cmId: type2.cmId, pageSize: 12, pageNum: 1 })
+    }, [otherData])
+
+    const getContentManage = async (type: string, params: any) => {
+        const response = await getContentManageAPI(params)
+        if (checkStatusCode(response)) {
+            const rows = response.rows || [];
+            typeContent[type] = rows
+            setTypeContent({ ...typeContent })
+        }
+    }
+
     return <div className={styles.Cultural}>
         <div className={styles.Banner}></div>
         <div className={styles.Content}>
             <a href="/" className={styles.Navigation}>>返回首页</a>
             <div className={styles.News}>
                 <div className={styles.NewsCover}>
-                    <img src={require('@/assets/images/dangshixx04.jpg')} alt="" />
+                    <img src={typeContent_1[0]?.contentThumbnailList[0]?.url} alt="" />
                     <div className={styles.NewsCoverInfo}>
-                        <span>习近平在党史学习教育动员大会上强调 学党史悟思想办实</span>
-                        <a>更多</a>
+                        <span>{typeContent_1[0]?.conTitle}</span>
+                        <a onClick={() => {
+                            const { cmId, parentId } = typeContent_1[0]
+                            location.href = `/List/${cmId}/${parentId}/0/inside`
+                        }}>更多</a>
                     </div>
                 </div>
                 <div className={styles.NewsList}>
                     {
-                        Array.from({ length: 6 }).map(v => (
-                            <li>
-                                <a href="" target="_blank">· 党史学习教育领导小组印发《关于深入推进“我为群众办实事”实践活动的通知》</a>
+                        typeContent_1?.map((v: any, m: number) => (
+                            <li key={m}>
+                                <a onClick={() => {
+                                    const { cmId, conId, parentId } = v
+                                    location.href = `/Detail/${cmId}/${parentId}/${conId}/inside`
+                                }} target="_blank">· {v.conTitle}</a>
                             </li>
                         ))
                     }
@@ -52,9 +84,12 @@ const Cultural: React.FC = () => {
             <div className={styles.Title}>
                 <div className={styles.Text}>
                     <img src={require('@/assets/images/dangshixx07.png')} alt="" />
-                    <a href="">基层动态</a>
+                    <a>{otherData["type2"]?.name}</a>
                 </div>
-                <a href="" className={styles.More}>更多+</a>
+                <a onClick={() => {
+                    const { cmId, parentId } = typeContent_2[0]
+                    location.href = `/List/${cmId}/${parentId}/0/inside`
+                }} className={styles.More}>更多+</a>
             </div>
             <div className={styles.Dynamic}>
                 <ul>
@@ -62,27 +97,23 @@ const Cultural: React.FC = () => {
                         <img src={require('@/assets/images/dangshixx02.jpg')} alt="" />
                         <img src={require('@/assets/images/dangshixx03.png')} alt="" />
                     </div>
-                    {
-                        newsList.map((v, m) => (
-                            <li key={m}>
-                                <a href="">{v.title}</a>
-                            </li>
-                        ))
-                    }
-                </ul>
-                <ul>
                     <div className={styles.ImgTop2}>
                         <img src={require('@/assets/images/dangshixx04.jpg')} alt="" />
                         <img src={require('@/assets/images/dangshixx05.jpg')} alt="" />
                     </div>
-                    {
-                        newsList.map((v, m) => (
-                            <li key={m}>
-                                <a href="">{v.title}</a>
-                            </li>
-                        ))
-                    }
                 </ul>
+            </div>
+            <div className={styles.Newlist}>
+                {
+                    typeContent_2?.map((v: any, m: number) => (
+                        <li key={m}>
+                            <a onClick={() => {
+                                const { cmId, conId, parentId } = v
+                                location.href = `/Detail/${cmId}/${parentId}/${conId}/inside`
+                            }}>· {v.conTitle}</a>
+                        </li>
+                    ))
+                }
             </div>
         </div>
         <div className={styles.Blank}></div>
