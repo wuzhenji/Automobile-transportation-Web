@@ -102,7 +102,7 @@ const Company: React.FC = () => {
                                             }}>{v.conTitle}</a>
                                             <span>{v.createTime}</span>
                                         </div>
-                                        <div className={styles.ItemContent} dangerouslySetInnerHTML={{ __html: v.content }} ></div>
+                                        <div className={styles.ItemContent} >{v.text}</div>
                                     </div>
                                 </div>
                                 <div className={styles.ShowDetail}>

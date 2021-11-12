@@ -5,7 +5,7 @@ import { request as appRequest } from '@/app';
 import { getStorage } from '@/utils/localstorage';
 
 // 游客token
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImM2MGY5ZTdhLTk3YTQtNDVjYi04ZDc0LWZmMjdjMzcyOTk4NSJ9.4QiXMzL9e4k3801V1OOK9ZI7030kmVEiPFahbkdOh8MfIPL-B9NSVR6z1YNSH_m9X07foJl0UaoWyB5mizQ5QQ'
+const token = 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImYyZWFlNzEwLWNiYzQtNDgwOC05ZTlkLTJiOGJkMTY1ODk3NSJ9.xZ6cYEt3q1Vv9aOkTSIQwwz_PPYQlS_eRd2UUtG6AGPAa6IV0PT-gADkYOAOoojKAWm_jPa5x__NWpU9pSJC_Q'
 
 export const request = extend({
   headers: {
