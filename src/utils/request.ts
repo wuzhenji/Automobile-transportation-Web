@@ -5,7 +5,7 @@ import { request as appRequest } from '@/app';
 import { getStorage } from '@/utils/localstorage';
 
 // 游客token
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImYyZWFlNzEwLWNiYzQtNDgwOC05ZTlkLTJiOGJkMTY1ODk3NSJ9.xZ6cYEt3q1Vv9aOkTSIQwwz_PPYQlS_eRd2UUtG6AGPAa6IV0PT-gADkYOAOoojKAWm_jPa5x__NWpU9pSJC_Q'
+const token = getStorage('token') || ''
 
 export const request = extend({
   headers: {

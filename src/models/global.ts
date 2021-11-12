@@ -1,8 +1,11 @@
 import { IBaseModel } from '@/pages/index.d';
 import { checkStatusCode } from '@/utils/request';
 import { getFragmentManageAPI, getContentManageAPI, getColManageAPI } from '@/services/common'
+import { autoLogin, queryCurrentUser } from '@/services/user'
+import { setStorage } from '@/utils/localstorage'
 
 interface IModelState {
+  userInfo: {} | null;
   fragmentInfo: {
     topData?: any[]
     otherData?: {}
@@ -11,6 +14,7 @@ interface IModelState {
 const Model: IBaseModel<IModelState> = {
   namespace: 'global',
   state: {
+    userInfo: null,
     fragmentInfo: {},
   },
   effects: {
@@ -26,6 +30,28 @@ const Model: IBaseModel<IModelState> = {
           type: 'saveState',
           payload: { fragmentInfo },
         });
+      }
+    },
+    *initData({ payload }, { put, call, select, take }) {
+      const response = yield queryCurrentUser(payload)
+      if (checkStatusCode(response)) {
+        const userInfo = response.data || {}
+        yield put({
+          type: 'saveState',
+          payload: {
+            userInfo
+          }
+        })
+      } else {
+        yield put({ type: 'autoLogin' })
+      }
+    },
+    *autoLogin({ payload }, { put, call, select, take }) {
+      const response = yield autoLogin(payload);
+      if (checkStatusCode(response)) {
+        setStorage("token", response.token)
+        yield put({ type: 'initData' })
+        location.reload()
       }
     }
   },

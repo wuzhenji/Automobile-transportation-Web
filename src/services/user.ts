@@ -1,6 +1,10 @@
 import { bizUrl } from '@/utils/utils';
-import { POST } from '@/utils/request';
+import { POST, GET } from '@/utils/request';
 
 export const queryCurrentUser = async (params: any) => {
-  return POST(bizUrl('/api/user/currentUser'), params);
+  return GET(bizUrl('/getInfo'), params);
+};
+
+export const autoLogin = async (params: any) => {
+  return POST(bizUrl('/guestLogin'), params);
 };

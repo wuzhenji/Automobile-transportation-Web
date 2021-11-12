@@ -119,7 +119,7 @@ const Open: React.FC = () => {
                     <p>
                         {
                             Array.from({ length: breafNews.length }).map((v, m) => (
-                                <span className={breafNewIndex === m ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(m) }}></span>
+                                <span key={m} className={breafNewIndex === m ? styles.Active : ''} onMouseOver={() => { setBreafNewIndex(m) }}></span>
                             ))
                         }
                     </p>
