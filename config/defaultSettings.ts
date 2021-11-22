@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '南通汽运实业集团有限公司',
   pwa: false,
-  logo: '/logo.svg',
+  logo: '/logo.png',
   iconfontUrl: '',
 };
 
