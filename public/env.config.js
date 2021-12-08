@@ -1,3 +1,3 @@
 window.env={
-    bizApi: 'http://121.5.61.85:8080'
+    bizApi: 'http://119.23.154.198/prodev'
 }

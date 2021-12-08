@@ -18,6 +18,8 @@ const Oa: React.FC = () => {
     const [menuList, setMenuList] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
+    const apiUrl = (window as any).env.bizApi
+
     useEffect(() => {
         if (topData.length > 0) {
             getColManage(topData[0].cmId)
@@ -53,7 +55,7 @@ const Oa: React.FC = () => {
             {
                 menuList.map(v => (
                     <div className={styles.CardItem} key={v.id}>
-                        <img src="" alt="" />
+                        <img src={`${apiUrl}${v.imgUrl}`} alt="" />
                         <h2>{v.name}</h2>
                         <a onClick={() => {
                             if (v.webUrl) {
