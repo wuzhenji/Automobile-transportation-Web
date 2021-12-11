@@ -10,6 +10,7 @@ import { checkStatusCode } from '@/utils/request'
 import useModelHelp from '@/hooks/useModelHelp';
 
 const colors = ['#632F00', '#00b10e', '#00bffe', '#2a72eb', '#F4B300', '#4e32a9', '#cf4020', '#61b118']
+const noImg = require('@/assets/images/noImg.png')
 const Open: React.FC = () => {
 
     const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
@@ -113,7 +114,12 @@ const Open: React.FC = () => {
             <div className={styles.NewsSwiper} onMouseOver={() => setInterval(null)} onMouseOut={() => setInterval(null)}>
                 <img onClick={() => {
                     // 跳转
-                }} className={styles.CoverImg} src={breafNews[breafNewIndex]?.contentThumbnailList[0]?.url || require('@/assets/images/noImg.png')} alt="" />
+                }} className={styles.CoverImg} src={breafNews[breafNewIndex]?.contentThumbnailList[0]?.url} onError={(e) => {
+                    //@ts-ignore
+                    e.target.onerror = null
+                    //@ts-ignore
+                    e.target.src = noImg
+                }} />
                 <div className={styles.Control}>
                     <div className={styles.Text}>{breafNews[breafNewIndex]?.conTitle}</div>
                     <p>

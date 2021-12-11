@@ -6,26 +6,7 @@ import { getContentManageAPI } from '@/services/common'
 import { checkStatusCode } from '@/utils/request'
 import useModelHelp from '@/hooks/useModelHelp';
 
-const newsList = [
-    {
-        title: '· 交通运输部党组理论学习中心组举行2021年第九次集体学习'
-    },
-    {
-        title: '· 交通运输部继续定点帮扶对口支援川赣五县'
-    },
-    {
-        title: '· 交通运输部修改废止14件规章'
-    },
-    {
-        title: '· 李小鹏在部党组党史学习教育第二次工作交流推进会上强调 在党'
-    },
-    {
-        title: '· 李小鹏主持召开部党组党史学习教育领导小组第三次会议'
-    },
-    {
-        title: '· 李小鹏主持召开部务会 强调贯彻落实习近平总书记“七一”重要重要重要重要重要'
-    },
-]
+const defaultImg = require('@/assets/images/defaultImg.jpg')
 const Cultural: React.FC = () => {
 
     const [modelState, { dispatch, loadings }] = useModelHelp({ namespace: 'global' });
@@ -58,7 +39,12 @@ const Cultural: React.FC = () => {
             <a href="/" className={styles.Navigation}>>返回首页</a>
             <div className={styles.News}>
                 <div className={styles.NewsCover}>
-                    <img src={typeContent_1[0]?.contentThumbnailList[0]?.url || require('@/assets/images/defaultImg.jpg')} alt="" />
+                    <img src={typeContent_1[0]?.contentThumbnailList[0]?.url} onError={(e) => {
+                        //@ts-ignore
+                        e.target.onerror = null
+                        //@ts-ignore
+                        e.target.src = defaultImg
+                    }} alt="" />
                     <div className={styles.NewsCoverInfo}>
                         <span>{typeContent_1[0]?.conTitle}</span>
                         <a onClick={() => {
