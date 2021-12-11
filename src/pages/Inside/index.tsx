@@ -28,12 +28,14 @@ const newsList = [
 ]
 const Cultural: React.FC = () => {
 
-    const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+    const [modelState, { dispatch, loadings }] = useModelHelp({ namespace: 'global' });
     const { fragmentInfo } = modelState;
     const { otherData = {} } = fragmentInfo;
 
     const [typeContent, setTypeContent] = useState<any>({ typeContent_1: [], typeContent_2: [] })
     const { typeContent_1, typeContent_2 } = typeContent
+
+    const loading = loadings.effects['global/getFragmentManage'] || false
 
     useEffect(() => {
         const { type1 = {}, type2 = {} } = otherData;
@@ -56,7 +58,7 @@ const Cultural: React.FC = () => {
             <a href="/" className={styles.Navigation}>>返回首页</a>
             <div className={styles.News}>
                 <div className={styles.NewsCover}>
-                    <img src={typeContent_1[0]?.contentThumbnailList[0]?.url} alt="" />
+                    <img src={typeContent_1[0]?.contentThumbnailList[0]?.url || require('@/assets/images/defaultImg.jpg')} alt="" />
                     <div className={styles.NewsCoverInfo}>
                         <span>{typeContent_1[0]?.conTitle}</span>
                         <a onClick={() => {

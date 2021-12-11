@@ -113,7 +113,7 @@ const Open: React.FC = () => {
             <div className={styles.NewsSwiper} onMouseOver={() => setInterval(null)} onMouseOut={() => setInterval(null)}>
                 <img onClick={() => {
                     // 跳转
-                }} className={styles.CoverImg} src={breafNews[breafNewIndex]?.contentThumbnailList[0]?.url} alt="" />
+                }} className={styles.CoverImg} src={breafNews[breafNewIndex]?.contentThumbnailList[0]?.url || require('@/assets/images/noImg.png')} alt="" />
                 <div className={styles.Control}>
                     <div className={styles.Text}>{breafNews[breafNewIndex]?.conTitle}</div>
                     <p>
