@@ -75,7 +75,7 @@ const Open: React.FC = () => {
                     <span>购票</span>
                 </a>
                 <a className={styles.Phone} href="https://www.chebada.com/" target="_blank">
-                    <i><img src={require('@/assets/images/icons2.png')} /></i>
+                    <i><img src={require('@/assets/images/icons2.jpg')} /></i>
                 </a>
             </div>
             <div className={styles.Right}>
