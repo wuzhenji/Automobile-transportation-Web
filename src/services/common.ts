@@ -31,3 +31,8 @@ export const getMainContentAPI = async (params: any) => {
 export const getMainContentDetailAPI = async (params: any) => {
     return GET(bizUrl(`/main/content/detail/${params.id}`), params);
 };
+
+// 首页广告
+export const getAdvertisementAPI = async (params: any) => {
+    return GET(bizUrl(`/advertisement/info/list`), params);
+};

@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
             name="keywords"
-            content="wuzhenji"
+            content="南通汽运实业集团有限公司"
     />
     <meta
             name="description"
-            content="wuzhenji"/>
+            content="南通汽运实业集团有限公司"/>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -20,6 +20,16 @@
   </head>
   <body>
   <noscript>当前浏览器未启用javascript</noscript>
+  <script type="text/javascript">
+    var userAgent = window.navigator.userAgent
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1
+    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+    if(isIE && !isIE11){
+      alert('请使用ie11或其他浏览器')
+    }
+    console.log(userAgent, isIE,strStart,strStop)
+  </script>
+  </script>
   <div id="root">
     <style type="text/css">
       .page-init {

@@ -11,6 +11,12 @@
     wrappers: ['@/layouts/GlobalLayout', '@/layouts/OpenLayout'],
     component: '@/pages/Open'
   },
+  { // 留言
+    name: 'Feedback',
+    path: '/Feedback',
+    wrappers: ['@/layouts/GlobalLayout', '@/layouts/OpenLayout'],
+    component: '@/pages/Feedback'
+  },
   { // 文化宣传
     name: 'Inside',
     path: '/Inside',

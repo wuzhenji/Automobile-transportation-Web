@@ -73,7 +73,7 @@ const Open: React.FC = () => {
                     <i><img src={require('@/assets/images/icons1.png')} /></i>
                     <span>购票</span>
                 </a>
-                <a className={styles.Phone} href="https://www.chebada.com/" target="_blank">
+                <a className={styles.Phone} href="/Feedback" target="_blank">
                     <i><img src={require('@/assets/images/icons2.png')} /></i>
                 </a>
             </div>

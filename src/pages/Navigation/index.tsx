@@ -1,9 +1,10 @@
 import styles from './index.less'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { } from 'umi'
 import { Space } from 'antd'
 import Footer from '@/components/Footer'
 import Iconfont from '@/components/Iconfont'
+import useModelHelp from '@/hooks/useModelHelp';
 
 const swiperBg = [
     require('@/assets/images/navbg-01.jpg'),
@@ -14,8 +15,20 @@ const swiperBg = [
 ]
 const Navigation: React.FC = () => {
     
+    const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
+    const { advertisement } = modelState;
     const [swiperBgIndex, setSwiperBgIndex] = useState<number>(0)
     const [showNotice, setShowNotice] = useState<boolean>(true)
+
+    useEffect(() =>{
+        dispatch({
+            type: 'global/getAdvertisement',
+            payload: {
+                pageNum: 1,
+                pageSize: 1
+            }
+        })
+    },[])
 
     return <div className={styles.Navigation}>
         <div className={styles.NavigationInner}>
@@ -26,9 +39,9 @@ const Navigation: React.FC = () => {
                 }} src={swiperBg[swiperBgIndex]} alt="" />
             </div>
             {
-                showNotice && <div className={styles.Notice}>
+                showNotice && advertisement.id && <div className={styles.Notice}>
                     <a target="_blank">
-                        <img src={require('@/assets/images/nndj.jpg')} alt="" />
+                        <img src={`${(window as any).env.bizApi}${advertisement?.picInfo}`} alt="" />
                     </a>
                     <span onClick={() => setShowNotice(false)}>关闭</span>
                 </div>

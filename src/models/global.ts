@@ -1,6 +1,6 @@
 import { IBaseModel } from '@/pages/index.d';
 import { checkStatusCode } from '@/utils/request';
-import { getFragmentManageAPI, getContentManageAPI, getColManageAPI } from '@/services/common'
+import { getFragmentManageAPI, getContentManageAPI, getColManageAPI, getAdvertisementAPI } from '@/services/common'
 import { autoLogin, queryCurrentUser } from '@/services/user'
 import { setStorage } from '@/utils/localstorage'
 
@@ -9,13 +9,15 @@ interface IModelState {
   fragmentInfo: {
     topData?: any[]
     otherData?: {}
-  }
+  },
+  advertisement: {}
 }
 const Model: IBaseModel<IModelState> = {
   namespace: 'global',
   state: {
     userInfo: null,
     fragmentInfo: {},
+    advertisement: {}
   },
   effects: {
     // 碎片化管理首页内容
@@ -52,6 +54,18 @@ const Model: IBaseModel<IModelState> = {
         setStorage("token", response.token)
         yield put({ type: 'initData' })
         location.reload()
+      }
+    },
+    *getAdvertisement({ payload }, { put, call, select, take }) {
+      const response = yield getAdvertisementAPI(payload);
+      if (checkStatusCode(response)) {
+        const rows = response.rows || []
+        yield put({
+          type: 'saveState',
+          payload: {
+            advertisement: rows.length ? rows[0] : {}
+          }
+        })
       }
     }
   },
