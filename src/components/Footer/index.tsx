@@ -4,7 +4,7 @@ import styles from './index.less'
 
 export default () => {
   const companyName = '南通汽运实业集团有限公司版权';
-  const recordNo = '苏ICP备855555812号';
+  const recordNo = '苏ICP备16025088号-1';
   const address = '南通市江海大道269号（原永兴车站）';
   const phone = '0513-85155315';
 
