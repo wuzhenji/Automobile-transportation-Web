@@ -5,6 +5,7 @@ import { Space } from 'antd'
 import Footer from '@/components/Footer'
 import Iconfont from '@/components/Iconfont'
 import useModelHelp from '@/hooks/useModelHelp';
+import PopNotice from "@/components/PopNotice";
 
 const swiperBg = [
     require('@/assets/images/navbg-01.jpg'),
@@ -14,11 +15,12 @@ const swiperBg = [
     require('@/assets/images/navbg-05.jpg'),
 ]
 const Navigation: React.FC = () => {
-    
+
     const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
     const { advertisement } = modelState;
     const [swiperBgIndex, setSwiperBgIndex] = useState<number>(0)
     const [showNotice, setShowNotice] = useState<boolean>(true)
+    const [popNoticeVisible, setPopNoticeVisible] = useState<boolean>(true)
 
     useEffect(() =>{
         dispatch({
@@ -58,6 +60,7 @@ const Navigation: React.FC = () => {
             </div>
         </div>
         <Footer />
+      {popNoticeVisible && <PopNotice onClose={() => setPopNoticeVisible(false)}/>}
     </div>
 }
 

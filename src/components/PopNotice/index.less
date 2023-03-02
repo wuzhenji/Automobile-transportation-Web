@@ -1,0 +1,51 @@
+.ztPage{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 350px;
+  height: 540px;
+  padding-top: 20px;
+  overflow: hidden;
+  transition: all .25s;
+  user-select: none;
+
+  .CloseBtn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: bold;
+  }
+}
+
+.Inner{
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 520px;
+  border: 2px solid #fff;
+  background: #FF0000;
+  color: #feec00;
+  font-size: 12px;
+  padding: 18px 0 12px;
+
+  .NoticeTitle{
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 15px;
+    font-weight: bold;
+  }
+
+  .NoticeContent{
+    transform: scale(.9);
+  }
+
+  .NoticeFooter{
+    align-self: flex-end;
+    width: 120px;
+    margin-right: 18px;
+    text-align: center;
+  }
+}

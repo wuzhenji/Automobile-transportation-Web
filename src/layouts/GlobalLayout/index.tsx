@@ -4,7 +4,7 @@ import styles from './index.less';
 import React, { useEffect } from 'react';
 import useModelHelp from '@/hooks/useModelHelp';
 import { PageLoading } from '@ant-design/pro-layout';
-import classNames from '_classnames@2.3.1@classnames';
+import classNames from 'classnames';
 
 const GlobalLayout: React.FC = ({ children }) => {
   const [modelState, { dispatch }] = useModelHelp({ namespace: 'global' });
