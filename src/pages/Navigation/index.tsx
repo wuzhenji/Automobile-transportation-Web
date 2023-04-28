@@ -20,7 +20,7 @@ const Navigation: React.FC = () => {
     const { advertisement } = modelState;
     const [swiperBgIndex, setSwiperBgIndex] = useState<number>(0)
     const [showNotice, setShowNotice] = useState<boolean>(true)
-    const [popNoticeVisible, setPopNoticeVisible] = useState<boolean>(true)
+    const [popNoticeVisible, setPopNoticeVisible] = useState<boolean>(false)
 
     useEffect(() =>{
         dispatch({
