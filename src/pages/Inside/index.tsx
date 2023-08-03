@@ -12,6 +12,7 @@ const Cultural: React.FC = () => {
     const [modelState, { dispatch, loadings }] = useModelHelp({ namespace: 'global' });
     const { fragmentInfo } = modelState;
     const { otherData = {} } = fragmentInfo;
+    console.log(otherData)
 
     const [typeContent, setTypeContent] = useState<any>({ typeContent_1: [], typeContent_2: [] })
     const { typeContent_1, typeContent_2 } = typeContent
@@ -34,9 +35,21 @@ const Cultural: React.FC = () => {
     }
 
     return <div className={styles.Cultural}>
-        <div className={styles.Banner}></div>
+        <div className={styles.Banner}>
+            <a href="http://www.jiangsu.gov.cn/col/col88709/index.html" target="_blank" />
+        </div>
         <div className={styles.Content}>
             <a href="/" className={styles.Navigation}>>返回首页</a>
+            <div className={styles.Title}>
+                <div className={styles.Text}>
+                    <img src={require('@/assets/images/dangshixx07.png')} alt="" />
+                    <a>{otherData["type1"]?.name}</a>
+                </div>
+                <a onClick={() => {
+                    const { cmId, parentId } = typeContent_1[0]
+                    location.href = `/List/${cmId}/${parentId}/0/inside`
+                }} className={styles.More}>更多+</a>
+            </div>
             <div className={styles.News}>
                 <div className={styles.NewsCover}>
                     <img src={typeContent_1[0]?.contentThumbnailList[0]?.url} onError={(e) => {
@@ -66,7 +79,7 @@ const Cultural: React.FC = () => {
                     }
                 </div>
             </div>
-            <a href="https://www.12371.cn/dsxx/" target="_blank" className={styles.ImgHref}>
+            <a href="https://www.12371.cn/special/xg20djs" target="_blank" className={styles.ImgHref}>
                 <img src={require('@/assets/images/dangshixx06.jpg')} alt="" />
             </a>
             <div className={styles.Title}>
